@@ -1,0 +1,22 @@
+{
+  "version": 6,
+  "importedAt": "Unknown",
+  "updatedAt": "Unknown",
+  "scope": "Empty template. Load an authorized private creator database locally.",
+  "stats": {
+    "creators": 0,
+    "observations": 0,
+    "instagram": 0,
+    "withViews": 0,
+    "withRates": 0,
+    "withDescription": 0,
+    "withCity": 0,
+    "withGenre": 0,
+    "withGender": 0,
+    "withLanguage": 0,
+    "publicResearch": 0,
+    "publicResearchOnly": 0
+  },
+  "sources": [],
+  "creators": []
+}
