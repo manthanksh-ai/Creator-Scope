@@ -22,7 +22,7 @@ API keys belong only in ignored local env files and hosted runtime secrets. Do n
 
 ## Local setup
 
-Requires Node.js22.13+ and npm.
+Requires Node.js 22.x and npm.
 
 1. `npm ci`
 2. Copy `src/database.example.json` to `src/database.json`, or restore your authorized private database at that path.
@@ -30,7 +30,7 @@ Requires Node.js22.13+ and npm.
 4. `node build-site.mjs`
 5. `npm run dev`
 
-Build with `npm run build`. The project uses Vinext/Vite and a Cloudflare Worker. Browser assets are prepared by `build-site.mjs`; database JSON is imported only into server routes.
+Build with `npm run build`. The GitHub copy uses native Next.js for Vercel. Browser assets are prepared by `build-site.mjs`; database JSON is imported only into server routes. The build uses the empty template when no private database is supplied.
 
 ## Layout
 
@@ -53,3 +53,13 @@ The existing production site is https://creator-scope.citrusgnat32.chatgpt.site/
 Missing facts stay Unknown. Source dates are not live metric dates. City, management status, rates and audience claims require appropriate evidence. Historical LVC quotes need reconfirmation; agency-listed profiles are not proof of exclusive representation. See `DATABASE_ACCESS.md`, `PUBLIC_RESEARCH.md` and `AI_SETUP.md` for details.
 
 The public site exposes individual search results; visible profile information can still be copied. Removing a bulk export is not a guarantee against scraping.
+
+## Vercel deployment
+
+- Framework: Next.js; root: `./`; install: `npm ci`; build: `npm run build`; output: default.
+- Node.js: 22.x.
+- AI variables: `OPENAI_API_KEY` and `AI_MODEL` (server only).
+- Optional `CREATOR_DATABASE_URL`: HTTPS endpoint serving the authorized private JSON database. Optional `CREATOR_DATABASE_TOKEN`: Bearer credential for that endpoint. Set these as sensitive deployment variables, never NEXT_PUBLIC variables.
+- Database downloads happen at build time. Redeploy after changing data or database settings. Failed configured downloads fail the build rather than silently clearing the catalog.
+- Without a private source, deployment works with zero creator records. The public repository intentionally contains no production roster.
+- The original Sites deployment is a separate Cloudflare build and is unaffected by these GitHub changes.
