@@ -24,3 +24,13 @@ Every creator detail response includes a structured campaign profile built from 
 `enrichmentCoverage` and `photoCoverage` expose aggregate coverage only. New research covers an initial ten profiles; the presence of the profile structure does not mean all 3,119 creators have been researched. More research is required to resolve Unknown values. No full-database export has been added.
 
 Detailed newly extracted fee menus and commercial/SOP instructions are held in ignored local work files pending explicit approval for public disclosure. They are excluded from the published database and public GitHub source.
+
+## October 21 brand workspace revision
+
+The public profile now hides unsupported fields and shows content/work examples, known basics and public contact links. No audience entry form, profile rate editor or blank safety questionnaire is shown. Country is derived from the listed city and describes location, not citizenship. Age bands require supporting evidence and are never estimated from appearance.
+
+New measured inputs use `reelMetrics`: ten public reel URLs, captured counts, collection date and publication dates or explicit grid-order evidence with pinned posts excluded. Rounded Instagram counts produce an explicitly approximate average. Estimated reach is 75% of that average and is only a planning proxy, not measured unique reach. Combined engagement sums likes, comments, saves and shares across all ten reels, divided by followers at capture. Every component must be available; absent saves/shares are never zero. Signing into a viewer account does not unlock other creators’ private Insights.
+
+The initial new reel sample is Rajan Arora only. The remaining creator library has not been refreshed with ten-reel samples. Older reported averages retain a separate unverified-window label. The public API removes historical commercial terms and rates unless `publicRateApproved` is explicitly true. New detailed agency menus/SOPs remain private by the owner's instruction.
+
+AI quota/configuration failures fall back to a clearly labelled keyword brief parser. This keeps shortlist search usable but is not a successful model inference. API credits must be supplied by the owner to restore model-based interpretation.
