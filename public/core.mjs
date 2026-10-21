@@ -50,23 +50,24 @@ export function countryFromCity(city){
  return found.join(' / ');
 }
 export function reelPerformance(c){
- const input=c.reelMetrics;if(!input?.latestTenVerified||!input.collectedAt||!Array.isArray(input.reels))return null;
+ const input=c.reelMetrics;if(!(input?.latestTenVerified||input?.latestFiveVerified)||!input.collectedAt||!Array.isArray(input.reels))return null;
+ const sampleSize=input.latestTenVerified?10:5;
  const validDate=v=>typeof v==='string'&&Number.isFinite(Date.parse(v));
  const gridOrder=input.orderBasis==='Public reels grid; pinned posts excluded';
  const rows=input.reels.filter(r=>(gridOrder||validDate(r.publishedAt))&&/^https:\/\/(?:www\.)?instagram\.com\/(?:[\w.]+\/)?(?:reel|p)\/[\w-]+\/?(?:\?.*)?$/.test(r.url||''));
  if(!gridOrder)rows.sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt));
- const reels=[...new Map(rows.map(r=>[r.url.replace(/\?.*/,''),r])).values()].slice(0,10);
- if(reels.length!==10)return null;
+ const reels=[...new Map(rows.map(r=>[r.url.replace(/\?.*/,''),r])).values()].slice(0,sampleSize);
+ if(reels.length!==sampleSize)return null;
  const count=(r,k)=>typeof r[k]==='number'&&Number.isFinite(r[k])&&r[k]>=0;
  const completeViews=reels.every(r=>count(r,'views'));
- const averageViews=completeViews?reels.reduce((s,r)=>s+r.views,0)/10:null;
+ const averageViews=completeViews?reels.reduce((s,r)=>s+r.views,0)/sampleSize:null;
  const interactionKeys=['likes','comments','saves','shares'];
  const completePublicInteractions=reels.every(r=>['likes','comments'].every(k=>count(r,k)));
  const publicInteractions=completePublicInteractions?reels.reduce((s,r)=>s+r.likes+r.comments,0):null;
  const completeInteractions=reels.every(r=>interactionKeys.every(k=>count(r,k)));
  const combinedInteractions=completeInteractions?reels.reduce((s,r)=>s+interactionKeys.reduce((n,k)=>n+r[k],0),0):null;
  const followers=typeof input.followersAtCapture==='number'&&input.followersAtCapture>0?input.followersAtCapture:null;
- return {sampleSize:10,completePublicInteractions,publicInteractions,publicEngagementRate:publicInteractions==null||followers==null?null:publicInteractions/followers*100,approximateEngagement:input.interactionsApproximate===true||input.followersApproximate===true,approximateViews:input.viewsApproximate===true,orderBasis:gridOrder?input.orderBasis:'Publication dates; pinned order ignored',averageViews,estimatedReach:averageViews==null?null:averageViews*.75,combinedInteractions,engagementRate:combinedInteractions==null||followers==null?null:combinedInteractions/followers*100,followersAtCapture:followers,collectedAt:input.collectedAt,start:reels[9].publishedAt,end:reels[0].publishedAt,completeInteractions,sources:reels.map(r=>r.url),method:(input.viewsApproximate?'Average views are approximate because Instagram displays rounded public counts. ':'')+'Public engagement = combined likes + comments on 10 reels / followers at capture × 100; saves and shares excluded. Full engagement = combined interactions on 10 reels / followers at capture × 100. Estimated reach = 75% of average views; this is a planning proxy, not measured unique reach.'};
+ return {sampleSize,completePublicInteractions,publicInteractions,publicEngagementRate:publicInteractions==null||followers==null?null:publicInteractions/followers*100,approximateEngagement:input.interactionsApproximate===true||input.followersApproximate===true,approximateViews:input.viewsApproximate===true,orderBasis:gridOrder?input.orderBasis:'Publication dates; pinned order ignored',averageViews,estimatedReach:averageViews==null?null:averageViews*.75,combinedInteractions,engagementRate:combinedInteractions==null||followers==null?null:combinedInteractions/followers*100,followersAtCapture:followers,collectedAt:input.collectedAt,start:reels[sampleSize-1].publishedAt,end:reels[0].publishedAt,completeInteractions,sources:reels.map(r=>r.url),method:(input.viewsApproximate?'Average views are approximate because Instagram displays rounded public counts. ':'')+'Public engagement = combined likes + comments on '+sampleSize+' reels / followers at capture × 100; saves and shares excluded. Full engagement = combined interactions on '+sampleSize+' reels / followers at capture × 100. Estimated reach = 75% of average views; this is a planning proxy, not measured unique reach.'};
 }
 
 export function compactMetric(value){
