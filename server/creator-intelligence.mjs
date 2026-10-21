@@ -9,7 +9,7 @@ export function creatorIntelligence(c){
  const imported=(v,note='')=>known(v)?field(v,[],note,'Reported source snapshot'):null;
  const performance=c.performance||reelPerformance(c),content={
   'Content description':fact('description')||imported(c.descriptions),
-  'Topics & niches':fact('topics')||imported(c.genres),
+  'Topics & niches':fact('topics')||imported(c.genres),'Indexed content tags':fact('indexedTopics'),
   'Formats':fact('formats'),'Style & tone':fact('tone'),
   'Series / IPs':imported(c.series),'Posting frequency':fact('postingFrequency')
  };

@@ -34,3 +34,9 @@ New measured inputs use `reelMetrics`: ten public reel URLs, captured counts, co
 The initial new reel sample is Rajan Arora only. The remaining creator library has not been refreshed with ten-reel samples. Older reported averages retain a separate unverified-window label. The public API removes historical commercial terms and rates unless `publicRateApproved` is explicitly true. New detailed agency menus/SOPs remain private by the owner's instruction.
 
 AI quota/configuration failures fall back to a clearly labelled keyword brief parser. This keeps shortlist search usable but is not a successful model inference. API credits must be supplied by the owner to restore model-based interpretation.
+
+## Broad public performance pass
+
+Public directory lookups were attempted for all 2,612 known Instagram handles. Only records with actual primary-profile metrics survive the import; empty directory records are rejected. Their displayed view averages and engagement figures retain a public source, retrieval date and an unverified sampling-window/formula warning. They are never relabelled as our last-ten formula. Approved public engagement calculation uses combined likes/comments from ten verified reels divided by captured followers; full engagement additionally requires saves and shares. Both remain absent when their inputs are incomplete. Compact counts use K/M with up to two decimals.
+
+The original photo collector could take the first similar-creator image from an empty profile. Ten such image assignments were quarantined in this audit, including Sarvesha Swar. Her incorrect portrait is removed; initials are used until a correct image can be saved. Her public reel grid was reviewed directly and a rounded ten-reel view sample added. No audience estimates, inferred age, personal-family assumptions or commercial details were introduced by the directory import.
