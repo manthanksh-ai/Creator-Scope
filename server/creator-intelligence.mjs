@@ -8,7 +8,8 @@ export function creatorIntelligence(c){
  };
  const imported=(v,note='')=>known(v)?field(v,[],note,'Reported source snapshot'):null;
  const performance=c.performance||reelPerformance(c),content={
-  'Content description':fact('description')||imported(c.descriptions),
+  'Content summary':(c.contentKnowledge?.summary?field(c.contentKnowledge.summary,(c.contentKnowledge.sources||[]).map(x=>x.url),c.contentKnowledge.note||'',c.contentKnowledge.basis):null)||fact('description')||fact('bluboxContent')||imported(c.descriptions),
+  'Public bio':c.contentKnowledge?.bio?field(c.contentKnowledge.bio,(c.contentKnowledge.sources||[]).filter(x=>x.type==='public-bio'||x.type==='public-directory').map(x=>x.url),'Publicly indexed bio excerpt; not a fresh review of posts.','Public bio snapshot'):null,
   'Topics & niches':fact('topics')||imported(c.genres),'Indexed content tags':fact('indexedTopics'),
   'Formats':fact('formats'),'Style & tone':fact('tone'),
   'Series / IPs':imported(c.series),'Posting frequency':fact('postingFrequency')
