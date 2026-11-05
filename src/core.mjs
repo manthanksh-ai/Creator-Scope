@@ -138,3 +138,20 @@ export function metricRangeText(range,percent=false,scale=1){
  if(lo===0&&percent)return '≤'+f(hi);
  return f(lo)+'–'+f(hi);
 }
+
+/** Default Discover ranking: reach, views, engagement signal, profile completeness. */
+export function discoverScore(c){
+ const followers=typeof c.followers==='number'?c.followers:c.followerRange?.lower??0;
+ const views=typeof c.avgViews==='number'?c.avgViews:c.viewRange?.lower??0;
+ const reach=Math.min(35,Math.log10(followers+1)/7*35);
+ const viewPts=Math.min(25,Math.log10(views+1)/6*25);
+ const rateBase=c.viewRateFollowers||followers;
+ const vtr=views>0&&rateBase>0?views/rateBase*100:0;
+ const engagement=Math.min(15,vtr>=20?15:vtr>=10?12:vtr>=5?9:vtr>=2?5:vtr>0?2:0);
+ const complete=[c.city,c.gender,c.languages,(c.genres||[]).length,c.ig||c.yt].filter(Boolean).length;
+ const completeness=complete*3;
+ const content=c.contentKnowledge?.summary||(c.descriptions||[]).length?5:0;
+ const roster=c.researchOnly||(c.discovery&&!(c.agencies||[]).some(a=>a&&a!=='Public research'&&a!=='Creator discovery'))?0:5;
+ const rates=(c.publicRateApproved&&c.cost!=null)||(c.rateQuotes||[]).length?5:0;
+ return Math.round(reach+viewPts+engagement+completeness+content+roster+rates);
+}
